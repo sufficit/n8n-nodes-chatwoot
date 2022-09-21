@@ -18,10 +18,6 @@ import {
 	IHttpRequestOptions,
 } from 'n8n-workflow';
 
-import {
-	get,
-} from 'lodash';
-
 import type { ChatWoot } from './types';
 
 // used from webhook authorization, avoid bots
@@ -36,7 +32,7 @@ class RequestError extends Error {
 export async function apiRequest(this: IHookFunctions | IExecuteFunctions | ILoadOptionsFunctions, method: string, endpoint: string, body: any = {}, qs: IDataObject = {}, headers: IDataObject = {}): Promise<any> { // tslint:disable-line:no-any
 	const credentials = await this.getCredentials('chatWootToken') as ChatWoot.Credentials;
 	const uri: string = credentials.baseUrl + endpoint;
-		
+
 	const options: OptionsWithUri = {
 		headers: {
 			Accept: 'application/json',
@@ -51,7 +47,7 @@ export async function apiRequest(this: IHookFunctions | IExecuteFunctions | ILoa
 	if (Object.keys(headers).length !== 0) {
 		options.headers = Object.assign({}, options.headers, headers);
 	}
-	
+
 	if (Object.keys(body).length !== 0) {
 		options.body = body;
 	}
@@ -61,8 +57,8 @@ export async function apiRequest(this: IHookFunctions | IExecuteFunctions | ILoa
 		delete options.qs;
 	}
 
-	try {							
-		const responseData = await this.helpers.request!(options);		
+	try {
+		const responseData = await this.helpers.request!(options);
 		if (responseData.success === false) {
 			throw new NodeApiError(this.getNode(), responseData);
 		}
