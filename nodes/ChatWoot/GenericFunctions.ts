@@ -1,7 +1,6 @@
 import {
-	IHookFunctions,
 	IExecuteFunctions,
-	IExecuteSingleFunctions,
+	IHookFunctions,
 	ILoadOptionsFunctions,
 } from 'n8n-core';
 
@@ -12,10 +11,6 @@ import {
 import {
 	IDataObject,
 	NodeApiError,
-	NodeOperationError,
-	ICredentialType,
-	ICredentialTestFunctions,
-	IHttpRequestOptions,
 } from 'n8n-workflow';
 
 import type { ChatWoot } from './types';
@@ -25,13 +20,13 @@ import { Response } from 'express';
 
 class RequestError extends Error {
 	constructor(public options: OptionsWithUri, status: number, message: string) {
-		super(message)
+		super(message);
 	}
 }
 
 export async function apiRequest(this: IHookFunctions | IExecuteFunctions | ILoadOptionsFunctions, method: string, endpoint: string, body: any = {}, qs: IDataObject = {}, headers: IDataObject = {}): Promise<any> { // tslint:disable-line:no-any
 	const credentials = await this.getCredentials('chatWootToken') as ChatWoot.Credentials;
-	const uri: string = credentials.baseUrl + endpoint;
+	const endpointUri: string = credentials.baseUrl + endpoint;
 
 	const options: OptionsWithUri = {
 		headers: {
@@ -40,7 +35,7 @@ export async function apiRequest(this: IHookFunctions | IExecuteFunctions | ILoa
 		},
 		method,
 		qs,
-		uri: uri,
+		uri: endpointUri,
 		json: true,
 	};
 

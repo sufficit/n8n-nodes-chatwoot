@@ -40,5 +40,5 @@ export const accountDescription: INodeProperties[] = [
 		},
 		default: '',
 		description: '(Optional) Get account details',
-	}
+	},
 ];

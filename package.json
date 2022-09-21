@@ -27,7 +27,7 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/ChatWootToken.credentials.js"
+      "dist/credentials/ChatWootTokenApi.credentials.js"
     ],
     "nodes": [
       "dist/nodes/ChatWoot/ChatWoot.node.js"

@@ -12,29 +12,29 @@ import {
 
 import type { ChatWoot } from '../types';
 
-export async function resourcePublic(this: IExecuteFunctions, operation: string, items: any, i: number): Promise<any> {
+export async function resourcePublic(this: IExecuteFunctions, operation: string, items: any, i: number): Promise<any> { // tslint:disable-line:no-any
 	const credentials = await this.getCredentials('chatWootToken') as ChatWoot.Credentials;
 
-	const baseEndpoint: string = '/public/api/v1/inboxes/{{inboxIdentifier}}';
+	const baseEndpoint = '/public/api/v1/inboxes/{{inboxIdentifier}}';
 
-	let InboxIdentifier = this.getNodeParameter('inboxIdentifier', i) as string;
-	let endpoint: string = baseEndpoint.replace('{{inboxIdentifier}}', InboxIdentifier);
+	const inboxIdentifier = this.getNodeParameter('inboxIdentifier', i) as string;
+	let endpoint: string = baseEndpoint.replace('{{inboxIdentifier}}', inboxIdentifier);
 
 	let responseData;
 	if (operation === 'contactCreate') {
-		endpoint = endpoint + "/contacts"
+		endpoint = endpoint + "/contacts";
 
-		let contactName = this.getNodeParameter('name', i) as string;
-		let contactPhoneNumber = this.getNodeParameter('phoneNumber', i) as string;
-		let contactIdentifier = this.getNodeParameter('identifier', i) as string;
-		let body: ChatWoot.ContactGetOrCreateRequest = {
+		const contactName = this.getNodeParameter('name', i) as string;
+		const contactPhoneNumber = this.getNodeParameter('phoneNumber', i) as string;
+		const contactIdentifier = this.getNodeParameter('identifier', i) as string;
+		const body: ChatWoot.ContactGetOrCreateRequest = {
 			name: contactName,
 			phone_number: contactPhoneNumber,
 			source_id: contactIdentifier,
 		};
 
 		// Handle custom headers
-		let customAttributes = this.getNodeParameter('customAttributes', i) as IDataObject;		
+		const customAttributes = this.getNodeParameter('customAttributes', i) as IDataObject;
 		if (customAttributes) {
 			const data: any = {}; // tslint:disable-line:no-any
 
@@ -47,26 +47,26 @@ export async function resourcePublic(this: IExecuteFunctions, operation: string,
 		}
 
 		responseData = await apiRequest.call(this, 'POST', endpoint, body);
-	} 
+	}
 	else if (operation === 'contact'){
-		endpoint = endpoint + "/contacts/{{contactIdentifier}}"
+		endpoint = endpoint + "/contacts/{{contactIdentifier}}";
 
-		let ContactIdentifier = this.getNodeParameter('contactIdentifier', i) as string;
-		endpoint = endpoint.replace('{{contactIdentifier}}', ContactIdentifier);
+		const contactIdentifier = this.getNodeParameter('contactIdentifier', i) as string;
+		endpoint = endpoint.replace('{{contactIdentifier}}', contactIdentifier);
 
 		responseData = await apiRequest.call(this, 'GET', endpoint);
 	}
 	else if (operation === 'messages') {
-		endpoint = endpoint + "/contacts/{{contactIdentifier}}/conversations/{{conversationId}}/messages"
+		endpoint = endpoint + "/contacts/{{contactIdentifier}}/conversations/{{conversationId}}/messages";
 
-		let ContactIdentifier = this.getNodeParameter('contactIdentifier', i) as string;
-		endpoint = endpoint.replace('{{contactIdentifier}}', ContactIdentifier);
+		const contactIdentifier = this.getNodeParameter('contactIdentifier', i) as string;
+		endpoint = endpoint.replace('{{contactIdentifier}}', contactIdentifier);
 
-		let ConversationId = this.getNodeParameter('conversationId', i) as string;
-		endpoint = endpoint.replace('{{conversationId}}', ConversationId);
+		const conversationId = this.getNodeParameter('conversationId', i) as string;
+		endpoint = endpoint.replace('{{conversationId}}', conversationId);
 
 		responseData = await apiRequest.call(this, 'GET', endpoint);
-	} 
-			
+	}
+
 	return responseData;
 }

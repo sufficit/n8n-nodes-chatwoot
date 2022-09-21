@@ -51,7 +51,7 @@ export const publicDescription: INodeProperties[] = [
 			show: {
 				resource: [
 					'public',
-				]
+				],
 			},
 		},
 		required: true,
@@ -67,8 +67,8 @@ export const publicDescription: INodeProperties[] = [
 					'public',
 				],
 				operation:[
-					'messages', 'contact'
-				]
+					'messages', 'contact',
+				],
 			},
 		},
 		required: true,
@@ -85,14 +85,14 @@ export const publicDescription: INodeProperties[] = [
 				],
 				operation:[
 					'messages',
-				]
+				],
 			},
 		},
 		required: true,
 		default: '',
 	},
 
-	// Contact Create 
+	// Contact Create
 	{
 		displayName: 'Name',
 		name: 'name',
@@ -104,7 +104,7 @@ export const publicDescription: INodeProperties[] = [
 				],
 				operation:[
 					'contactCreate',
-				]
+				],
 			},
 		},
 		required: true,
@@ -121,7 +121,7 @@ export const publicDescription: INodeProperties[] = [
 				],
 				operation:[
 					'contactCreate',
-				]
+				],
 			},
 		},
 		required: true,
@@ -138,7 +138,7 @@ export const publicDescription: INodeProperties[] = [
 				],
 				operation:[
 					'contactCreate',
-				]
+				],
 			},
 		},
 		default: '',
@@ -159,7 +159,7 @@ export const publicDescription: INodeProperties[] = [
 				],
 				operation:[
 					'contactCreate',
-				]
+				],
 			},
 		},
 		default: {},

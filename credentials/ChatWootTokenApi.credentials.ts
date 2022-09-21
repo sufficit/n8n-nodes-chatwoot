@@ -3,10 +3,10 @@ import {
 	INodeProperties,
 } from 'n8n-workflow';
 
-export class ChatWootToken implements ICredentialType {
-	name = 'chatWootToken';
-	displayName = 'ChatWoot Access Token';
-	documentationUrl = 'chatwoot';
+export class ChatWootTokenApi implements ICredentialType {
+	name = 'chatWootTokenApi';
+	displayName = 'ChatWoot Access Token API';
+	documentationUrl = 'https://github.com/sufficit/n8n-nodes-chatwoot/docs/auth';
 	properties: INodeProperties[] = [
 		{
 			displayName: 'ChatWoot API Url',

@@ -1,90 +1,78 @@
+import { IExecuteFunctions } from 'n8n-core';
 import {
-	IExecuteFunctions,
-} from 'n8n-core';
-
-import {
-	IDataObject,
-	INodeExecutionData,
-	INodeType,
-	INodeTypeDescription,
 	ICredentialsDecrypted,
 	ICredentialTestFunctions,
-	ILoadOptionsFunctions,
+	IDataObject,
 	INodeCredentialTestResult,
-	NodeOperationError,
+	INodeExecutionData,
+	INodeType,
+	INodeTypeDescription
 } from 'n8n-workflow';
-
 import {
 	accountDescription,
-	publicDescription,
+	publicDescription
 } from './descriptions';
-
 import {
 	resourceAccount,
-	resourcePublic,
+	resourcePublic
 } from './methods';
+import { requestAccountOptions } from './GenericFunctions';
+import { ChatWoot as Types } from './types';
 
-import {
-	apiRequest,
-	requestAccountOptions,
-} from './GenericFunctions';
-
-import type { ChatWoot as Types } from './types';
 
 export class ChatWoot implements INodeType {
 	description: INodeTypeDescription = {
-			displayName: 'ChatWoot',
-			name: 'chatwoot',
-			icon: 'file:chatwoot.svg',
-			group: ['transform'],
-			version: 1,
-			subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-			description: 'Consume ChatWoot API',
-			defaults: {
-					name: 'ChatWoot',
-					color: '#1A82e2',
+		displayName: 'ChatWoot',
+		name: 'chatwoot',
+		icon: 'file:chatwoot.svg',
+		group: ['transform'],
+		version: 1,
+		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
+		description: 'Consume ChatWoot API',
+		defaults: {
+			name: 'ChatWoot',
+		},
+		inputs: ['main'],
+		outputs: ['main'],
+		credentials: [
+			{
+				name: 'chatWootTokenApi',
+				testedBy: 'chatWootTokenTest',
+				required: true,
 			},
-			inputs: ['main'],
-			outputs: ['main'],
-			credentials: [
-				{
-					name: 'chatWootToken',
-					testedBy: 'chatWootTokenTest',
-					required: true,
-				},
-			],
-			properties: [
-				{
-					displayName: 'Resource',
-					name: 'resource',
-					type: 'options',
-					noDataExpression: true,
-					options: [
-						{
-							name: 'Account',
-							value: 'account',
-						},
-						{
-							name: 'Public',
-							value: 'public',
-						},
-					],
-					default: 'account',
-					required: true,
-				},
-				...accountDescription,
-				...publicDescription,
-			],
+		],
+		properties: [
+			{
+				displayName: 'Resource',
+				name: 'resource',
+				type: 'options',
+				noDataExpression: true,
+				options: [
+					{
+						name: 'Account',
+						value: 'account',
+					},
+					{
+						name: 'Public',
+						value: 'public',
+					},
+				],
+				default: 'account',
+				required: true,
+			},
+			...accountDescription,
+			...publicDescription,
+		],
 	};
 
 	methods = {
 		credentialTest: {
 			async chatWootTokenTest(
 				this: ICredentialTestFunctions,
-				credential: ICredentialsDecrypted,
+				credential: ICredentialsDecrypted
 			): Promise<INodeCredentialTestResult> {
 				const credentials = credential.data as Types.Credentials;
-				const options = requestAccountOptions(credentials)
+				const options = requestAccountOptions(credentials);
 				try {
 					await this.helpers.request(options);
 					return {
@@ -104,22 +92,22 @@ export class ChatWoot implements INodeType {
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
 		const resource = this.getNodeParameter('resource', 0) as Types.Resource;
-		const operation = this.getNodeParameter('operation', 0) as string;		
+		const operation = this.getNodeParameter('operation', 0) as string;
 		const returnData: IDataObject[] = [];
 
 		for (let i = 0; i < items.length; i++) {
 			let responseData;
 			try {
-				if (resource === 'account'){	
-					responseData = await resourceAccount.call(this, operation, items, i);						
-				} 
+				if (resource === 'account') {
+					responseData = await resourceAccount.call(this, operation, items, i);
+				}
 				else if (resource === 'public') {
-					responseData = await resourcePublic.call(this, operation, items, i)
-				} 
+					responseData = await resourcePublic.call(this, operation, items, i);
+				}
 				/*
 				else if (resource === 'webhook') {
-					responseData = await resourceWebhook.call(this, operation, items, i)
-				}					
+						responseData = await resourceWebhook.call(this, operation, items, i)
+				}
 				*/
 				if (Array.isArray(responseData)) {
 					returnData.push.apply(returnData, responseData as IDataObject[]);
@@ -127,8 +115,8 @@ export class ChatWoot implements INodeType {
 					returnData.push(responseData as IDataObject);
 				}
 			} catch (error) {
-				if (this.continueOnFail()) {					
-					returnData.push({ error: error.message });					
+				if (this.continueOnFail()) {
+					returnData.push({ error: error.message });
 					continue;
 				}
 				throw error;
@@ -136,6 +124,6 @@ export class ChatWoot implements INodeType {
 		}
 
 		// For all other ones does the output items get replaced
-		return [this.helpers.returnJsonArray(returnData)];		
+		return [this.helpers.returnJsonArray(returnData)];
 	}
 }
