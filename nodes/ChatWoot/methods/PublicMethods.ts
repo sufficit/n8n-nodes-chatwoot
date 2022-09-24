@@ -1,9 +1,6 @@
 import {
-	IExecuteFunctions,
-} from 'n8n-core';
-
-import {
 	IDataObject,
+	IExecuteFunctions,
 } from 'n8n-workflow';
 
 import {

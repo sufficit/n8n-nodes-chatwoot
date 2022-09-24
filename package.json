@@ -7,7 +7,10 @@
   ],
   "license": "MIT",
   "homepage": "https://www.sufficit.com.br",
-  "author": "Sufficit Soluções em Tecnologia da Informação <contato@sufficit.com.br>",
+  "author": {
+    "name": "Sufficit Soluções em Tecnologia da Informação",
+    "email": "contato@sufficit.com.br"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sufficit/n8n-nodes-chatwoot.git"
@@ -39,7 +42,8 @@
     "@typescript-eslint/parser": "^5.29.0",
     "eslint-plugin-n8n-nodes-base": "^1.5.4",
     "gulp": "^4.0.2",
-    "n8n-core": "^0.125.0",
+    "lerna": "^5.5.2",
+    "n8n-core": "^0.135.0",
     "n8n-workflow": "^0.107.0",
     "prettier": "^2.7.1",
     "tslint": "^6.1.2",
@@ -48,7 +52,7 @@
   "bugs": {
     "url": "https://github.com/sufficit/n8n-nodes-chatwoot/issues"
   },
-  "dependencies": {
-    "tsc": "^2.0.4"
-  }
+  "workspaces": [
+    "packages/*"
+  ]
 }

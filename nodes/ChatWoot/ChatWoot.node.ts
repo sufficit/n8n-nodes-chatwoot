@@ -1,8 +1,9 @@
-import { IExecuteFunctions } from 'n8n-core';
+/* eslint-disable n8n-nodes-base/node-filename-against-convention */
 import {
 	ICredentialsDecrypted,
 	ICredentialTestFunctions,
 	IDataObject,
+	IExecuteFunctions,
 	INodeCredentialTestResult,
 	INodeExecutionData,
 	INodeType,
@@ -69,7 +70,7 @@ export class ChatWoot implements INodeType {
 		credentialTest: {
 			async chatWootTokenTest(
 				this: ICredentialTestFunctions,
-				credential: ICredentialsDecrypted
+				credential: ICredentialsDecrypted,
 			): Promise<INodeCredentialTestResult> {
 				const credentials = credential.data as Types.Credentials;
 				const options = requestAccountOptions(credentials);
@@ -89,7 +90,7 @@ export class ChatWoot implements INodeType {
 		},
 	};
 
-	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][] | null> {
 		const items = this.getInputData();
 		const resource = this.getNodeParameter('resource', 0) as Types.Resource;
 		const operation = this.getNodeParameter('operation', 0) as string;

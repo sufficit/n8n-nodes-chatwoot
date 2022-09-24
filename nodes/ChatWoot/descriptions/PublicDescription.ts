@@ -1,6 +1,4 @@
-import {
-	INodeProperties,
-} from 'n8n-workflow';
+import { INodeProperties } from 'n8n-workflow';
 
 export const publicDescription: INodeProperties[] = [
 	{
@@ -10,35 +8,39 @@ export const publicDescription: INodeProperties[] = [
 		noDataExpression: true,
 		displayOptions: {
 			show: {
-				resource: [
-					'public',
-				],
+				resource: ['public'],
 			},
 		},
 		options: [
 			{
 				name: 'Create Contact',
 				value: 'contactCreate',
-			},
-			{
-				name: 'Get Contact Details',
-				value: 'contact',
+				action: 'Create contact a public',
 			},
 			{
 				name: 'Create Conversation',
 				value: 'conversation',
-			},
-			{
-				name: 'Get All Conversation',
-				value: 'conversations',
+				action: 'Create conversation a public',
 			},
 			{
 				name: 'Create Message',
 				value: 'message',
+				action: 'Create message a public',
+			},
+			{
+				name: 'Get All Conversation',
+				value: 'conversations',
+				action: 'Get all conversation a public',
 			},
 			{
 				name: 'Get All Messages',
 				value: 'messages',
+				action: 'Get all messages a public',
+			},
+			{
+				name: 'Get Contact Details',
+				value: 'contact',
+				action: 'Get contact details a public',
 			},
 		],
 		default: 'messages',
@@ -49,9 +51,7 @@ export const publicDescription: INodeProperties[] = [
 		type: 'string',
 		displayOptions: {
 			show: {
-				resource: [
-					'public',
-				],
+				resource: ['public'],
 			},
 		},
 		required: true,
@@ -63,29 +63,21 @@ export const publicDescription: INodeProperties[] = [
 		type: 'string',
 		displayOptions: {
 			show: {
-				resource: [
-					'public',
-				],
-				operation:[
-					'messages', 'contact',
-				],
+				resource: ['public'],
+				operation: ['messages', 'contact'],
 			},
 		},
 		required: true,
 		default: '',
 	},
 	{
-		displayName: 'Conversation Id',
+		displayName: 'Conversation ID',
 		name: 'conversationId',
 		type: 'string',
 		displayOptions: {
 			show: {
-				resource: [
-					'public',
-				],
-				operation:[
-					'messages',
-				],
+				resource: ['public'],
+				operation: ['messages'],
 			},
 		},
 		required: true,
@@ -99,29 +91,21 @@ export const publicDescription: INodeProperties[] = [
 		type: 'string',
 		displayOptions: {
 			show: {
-				resource: [
-					'public',
-				],
-				operation:[
-					'contactCreate',
-				],
+				resource: ['public'],
+				operation: ['contactCreate'],
 			},
 		},
 		required: true,
 		default: '',
 	},
 	{
-		displayName: 'Phone number',
+		displayName: 'Phone Number',
 		name: 'phoneNumber',
 		type: 'string',
 		displayOptions: {
 			show: {
-				resource: [
-					'public',
-				],
-				operation:[
-					'contactCreate',
-				],
+				resource: ['public'],
+				operation: ['contactCreate'],
 			},
 		},
 		required: true,
@@ -133,12 +117,8 @@ export const publicDescription: INodeProperties[] = [
 		type: 'string',
 		displayOptions: {
 			show: {
-				resource: [
-					'public',
-				],
-				operation:[
-					'contactCreate',
-				],
+				resource: ['public'],
+				operation: ['contactCreate'],
 			},
 		},
 		default: '',
@@ -154,12 +134,8 @@ export const publicDescription: INodeProperties[] = [
 		},
 		displayOptions: {
 			show: {
-				resource: [
-					'public',
-				],
-				operation:[
-					'contactCreate',
-				],
+				resource: ['public'],
+				operation: ['contactCreate'],
 			},
 		},
 		default: {},

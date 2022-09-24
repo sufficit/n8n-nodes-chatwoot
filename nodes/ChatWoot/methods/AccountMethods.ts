@@ -1,9 +1,5 @@
 import {
 	IExecuteFunctions,
-} from 'n8n-core';
-
-import {
-	INodeExecutionData,
 } from 'n8n-workflow';
 
 import {
@@ -12,7 +8,7 @@ import {
 
 import type { ChatWoot } from '../types';
 
-export async function resourceAccount(this: IExecuteFunctions, operation: string, items: INodeExecutionData[], i: number): Promise<any> { // tslint:disable-line:no-any
+export async function resourceAccount(this: IExecuteFunctions, operation: string, items: any, i: number): Promise<any> { // tslint:disable-line:no-any
 	const credentials = await this.getCredentials('chatWootToken') as ChatWoot.Credentials;
 
 	let responseData;

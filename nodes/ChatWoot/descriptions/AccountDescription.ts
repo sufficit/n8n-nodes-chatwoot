@@ -20,12 +20,13 @@ export const accountDescription: INodeProperties[] = [
 				name: 'Information',
 				value: 'information',
 				description: 'Get details about an account',
+				action: 'Information an account',
 			},
 		],
 		default: 'information',
 	},
 	{
-		displayName: 'Account Id',
+		displayName: 'Account ID',
 		name: 'accountId',
 		type: 'string',
 		displayOptions: {
