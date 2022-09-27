@@ -1,7 +1,3 @@
-import {
-	OptionsWithUri,
-} from 'request';
-
 export declare namespace ChatWoot {
 
 	export type Resource = 'account' | 'public';
@@ -14,7 +10,8 @@ export declare namespace ChatWoot {
 
 	export type ContactGetOrCreateRequest = {
 		name: string;
-		phone_number: string;
+		phone_number?: string;
+		email?: string;
 		source_id?: string;
 		identifier?: string;
 		custom_attributes?: any;

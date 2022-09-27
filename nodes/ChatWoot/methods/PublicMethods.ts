@@ -21,13 +21,11 @@ export async function resourcePublic(this: IExecuteFunctions, operation: string,
 	if (operation === 'contactCreate') {
 		endpoint = endpoint + "/contacts";
 
-		const contactName = this.getNodeParameter('name', i) as string;
-		const contactPhoneNumber = this.getNodeParameter('phoneNumber', i) as string;
-		const contactIdentifier = this.getNodeParameter('identifier', i) as string;
 		const body: ChatWoot.ContactGetOrCreateRequest = {
-			name: contactName,
-			phone_number: contactPhoneNumber,
-			source_id: contactIdentifier,
+			name: this.getNodeParameter('name', i) as string,
+			phone_number: this.getNodeParameter('phoneNumber', i) as string,
+			email: this.getNodeParameter('email', i) as string,
+			source_id: this.getNodeParameter('identifier', i) as string,
 		};
 
 		// Handle custom headers

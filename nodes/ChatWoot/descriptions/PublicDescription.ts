@@ -108,7 +108,19 @@ export const publicDescription: INodeProperties[] = [
 				operation: ['contactCreate'],
 			},
 		},
-		required: true,
+		default: '',
+	},
+	{
+		displayName: 'E-Mail',
+		name: 'email',
+		type: 'string',
+		displayOptions: {
+			show: {
+				resource: ['public'],
+				operation: ['contactCreate'],
+			},
+		},
+		placeholder: 'email@domain.com',
 		default: '',
 	},
 	{
