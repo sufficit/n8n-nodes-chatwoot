@@ -1,4 +1,4 @@
-export declare namespace ChatWoot {
+export declare namespace CWModels {
 
 	export type Resource = 'account' | 'public';
 

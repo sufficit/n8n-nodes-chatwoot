@@ -18,8 +18,7 @@ import {
 	resourcePublic
 } from './methods';
 import { requestAccountOptions } from './GenericFunctions';
-import { ChatWoot as Types } from './types';
-
+import type { CWModels } from './models';
 
 export class ChatWoot implements INodeType {
 	description: INodeTypeDescription = {
@@ -72,7 +71,7 @@ export class ChatWoot implements INodeType {
 				this: ICredentialTestFunctions,
 				credential: ICredentialsDecrypted,
 			): Promise<INodeCredentialTestResult> {
-				const credentials = credential.data as Types.Credentials;
+				const credentials = credential.data as CWModels.Credentials;
 				const options = requestAccountOptions(credentials);
 				try {
 					await this.helpers.request(options);
@@ -92,7 +91,7 @@ export class ChatWoot implements INodeType {
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][] | null> {
 		const items = this.getInputData();
-		const resource = this.getNodeParameter('resource', 0) as Types.Resource;
+		const resource = this.getNodeParameter('resource', 0) as CWModels.Resource;
 		const operation = this.getNodeParameter('operation', 0) as string;
 		const returnData: IDataObject[] = [];
 

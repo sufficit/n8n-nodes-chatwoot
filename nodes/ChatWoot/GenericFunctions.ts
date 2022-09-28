@@ -8,7 +8,7 @@ import {
 	NodeApiError,
 } from 'n8n-workflow';
 
-import type { ChatWoot } from './types';
+import type { CWModels } from './models';
 
 // used from webhook authorization, avoid bots
 import { Response } from 'express';
@@ -20,7 +20,7 @@ class RequestError extends Error {
 }
 
 export async function apiRequest(this: IExecuteFunctions, method: string, endpoint: string, body: any = {}, qs: IDataObject = {}, headers: IDataObject = {}): Promise<any> { // tslint:disable-line:no-any
-	const credentials = await this.getCredentials('chatWootToken') as ChatWoot.Credentials;
+	const credentials = await this.getCredentials('chatWootTokenApi') as CWModels.Credentials;
 	const endpointUri: string = credentials.baseUrl + endpoint;
 
 	const options: OptionsWithUri = {
@@ -77,7 +77,7 @@ export function authorizationError(resp: Response, realm: string, responseCode: 
 	};
 }
 
-export function requestAccountOptions(credentials: ChatWoot.Credentials){
+export function requestAccountOptions(credentials: CWModels.Credentials){
 	let baseUrl = credentials.baseUrl;
 	if (baseUrl.endsWith("/")){
 		baseUrl = baseUrl.slice(0, -1);

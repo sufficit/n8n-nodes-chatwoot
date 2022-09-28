@@ -6,10 +6,10 @@ import {
 	apiRequest,
 } from '../GenericFunctions';
 
-import type { ChatWoot } from '../types';
+import type { CWModels } from '../models';
 
 export async function resourceAccount(this: IExecuteFunctions, operation: string, items: any, i: number): Promise<any> { // tslint:disable-line:no-any
-	const credentials = await this.getCredentials('chatWootToken') as ChatWoot.Credentials;
+	const credentials = await this.getCredentials('chatWootTokenApi') as CWModels.Credentials;
 
 	let responseData;
 	if (operation === 'information') {

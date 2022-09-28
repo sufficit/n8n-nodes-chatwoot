@@ -1,9 +1,11 @@
 {
   "name": "@sufficit/n8n-nodes-chatwoot",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "description": "This is an n8n community node. It lets you use ChatWoot in your n8n workflows.",
   "keywords": [
-    "n8n-community-node-package"
+    "n8n-community-node-package",
+    "chatwoot",
+    "sufficit"
   ],
   "license": "MIT",
   "homepage": "https://www.sufficit.com.br",

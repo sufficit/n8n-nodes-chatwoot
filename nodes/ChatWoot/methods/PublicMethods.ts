@@ -7,11 +7,9 @@ import {
 	apiRequest,
 } from '../GenericFunctions';
 
-import type { ChatWoot } from '../types';
+import type { CWModels } from '../models';
 
 export async function resourcePublic(this: IExecuteFunctions, operation: string, items: any, i: number): Promise<any> { // tslint:disable-line:no-any
-	const credentials = await this.getCredentials('chatWootToken') as ChatWoot.Credentials;
-
 	const baseEndpoint = '/public/api/v1/inboxes/{{inboxIdentifier}}';
 
 	const inboxIdentifier = this.getNodeParameter('inboxIdentifier', i) as string;
@@ -21,21 +19,21 @@ export async function resourcePublic(this: IExecuteFunctions, operation: string,
 	if (operation === 'contactCreate') {
 		endpoint = endpoint + "/contacts";
 
-		const body: ChatWoot.ContactGetOrCreateRequest = {
+		const body: CWModels.ContactGetOrCreateRequest = {
 			name: this.getNodeParameter('name', i) as string,
-			phone_number: this.getNodeParameter('phoneNumber', i) as string,
-			email: this.getNodeParameter('email', i) as string,
-			source_id: this.getNodeParameter('identifier', i) as string,
+			phone_number: this.getNodeParameter('phoneNumber', i) as string | undefined,
+			email: this.getNodeParameter('email', i) as string | undefined,
+			source_id: this.getNodeParameter('identifier', i) as string | undefined,
 		};
 
 		// Handle custom headers
-		const customAttributes = this.getNodeParameter('customAttributes', i) as IDataObject;
-		if (customAttributes) {
-			const data: any = {}; // tslint:disable-line:no-any
+		const parCustomAttributes = this.getNodeParameter('customAttributes', i) as IDataObject;
+		if (parCustomAttributes && parCustomAttributes.attribute) {
+			const data: IDataObject = {}; // tslint:disable-line:no-any
 
-			//@ts-ignore
-			customAttributes.attribute.map(property => {
-				data[property.key] = property.value;
+			const atts = parCustomAttributes.attribute as IDataObject[];
+			atts.map(property => {
+				data[property.key as string] = property.value;
 			});
 
 			body.custom_attributes = data;
