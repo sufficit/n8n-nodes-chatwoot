@@ -20,13 +20,17 @@ class RequestError extends Error {
 }
 
 export async function apiRequest(this: IExecuteFunctions, method: string, endpoint: string, body: any = {}, qs: IDataObject = {}, headers: IDataObject = {}): Promise<any> { // tslint:disable-line:no-any
-	const credentials = await this.getCredentials('chatWootTokenApi') as CWModels.Credentials;
-	const endpointUri: string = credentials.baseUrl + endpoint;
+	let baseUrl = this.getNodeParameter('baseUrl', 0, '') as string;
+	if (!baseUrl) {
+			const credentials = await this.getCredentials('chatWootTokenApi') as CWModels.Credentials;
+			baseUrl = baseUrl || credentials.baseUrl;
+	}
+
+	const endpointUri: string = baseUrl + endpoint;
 
 	const options: OptionsWithUri = {
 		headers: {
 			Accept: 'application/json',
-			'api_access_token': credentials.accessToken,
 		},
 		method,
 		qs,

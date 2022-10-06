@@ -7,7 +7,7 @@ import {
 	apiRequest,
 } from '../GenericFunctions';
 
-import type { CWModels } from '../models';
+import { CWModels } from '../models';
 
 export async function resourcePublic(this: IExecuteFunctions, operation: string, items: any, i: number): Promise<any> { // tslint:disable-line:no-any
 	const baseEndpoint = '/public/api/v1/inboxes/{{inboxIdentifier}}';
@@ -29,7 +29,7 @@ export async function resourcePublic(this: IExecuteFunctions, operation: string,
 		// Handle custom headers
 		const parCustomAttributes = this.getNodeParameter('customAttributes', i) as IDataObject;
 		if (parCustomAttributes && parCustomAttributes.attribute) {
-			const data: IDataObject = {}; // tslint:disable-line:no-any
+			const data: IDataObject = {};
 
 			const atts = parCustomAttributes.attribute as IDataObject[];
 			atts.map(property => {

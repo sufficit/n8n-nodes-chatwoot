@@ -18,7 +18,7 @@ import {
 	resourcePublic
 } from './methods';
 import { requestAccountOptions } from './GenericFunctions';
-import type { CWModels } from './models';
+import { CWModels } from './models';
 
 export class ChatWoot implements INodeType {
 	description: INodeTypeDescription = {
@@ -39,9 +39,70 @@ export class ChatWoot implements INodeType {
 				name: 'chatWootTokenApi',
 				testedBy: 'chatWootTokenTest',
 				required: true,
+				displayOptions: {
+					show: {
+						authentication: [
+							'predefinedCredentialType',
+						],
+					},
+				},
 			},
 		],
 		properties: [
+			{
+				displayName: 'Authentication',
+				name: 'authentication',
+				noDataExpression: true,
+				type: 'options',
+				required: true,
+				options: [
+					{
+						name: 'Parameters',
+						value: 'parametersCredentialType',
+					},
+					{
+						name: 'Predefined Chatwoot Credentials',
+						value: 'predefinedCredentialType',
+						description: 'BaseUrl + Token',
+					},
+				],
+				default: 'parametersCredentialType',
+			},
+			{
+				displayName: 'BaseUrl',
+				name: 'baseUrl',
+				type: 'string',
+				default: '',
+				required: true,
+				description: 'Base URL',
+				placeholder: 'https://chatwoot.org',
+				displayOptions: {
+					show: {
+						authentication: [
+							'parametersCredentialType',
+						],
+					},
+				},
+			},
+			{
+				displayName: 'Access Token',
+				name: 'accessToken',
+				type: 'string',
+				default: '',
+				required: true,
+				description: 'Token of chatwoot, override credentials',
+				placeholder: '00000000-0000-0000-0000-000000000000',
+				displayOptions: {
+					show: {
+						authentication: [
+							'parametersCredentialType',
+						],
+						resource: [
+							'account',
+						],
+					},
+				},
+			},
 			{
 				displayName: 'Resource',
 				name: 'resource',
