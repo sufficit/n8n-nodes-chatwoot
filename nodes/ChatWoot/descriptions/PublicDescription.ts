@@ -24,7 +24,7 @@ export const publicDescription: INodeProperties[] = [
 			},
 			{
 				name: 'Create Message',
-				value: 'message',
+				value: 'messageCreate',
 				action: 'Create message a public',
 			},
 			{
@@ -64,7 +64,7 @@ export const publicDescription: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['public'],
-				operation: ['messages', 'contact'],
+				operation: ['messageCreate', 'messages', 'contact'],
 			},
 		},
 		required: true,
@@ -77,7 +77,7 @@ export const publicDescription: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['public'],
-				operation: ['messages'],
+				operation: ['messageCreate', 'messages'],
 			},
 		},
 		required: true,
@@ -135,6 +135,19 @@ export const publicDescription: INodeProperties[] = [
 		},
 		default: '',
 		description: '(Optional) External API Contact identifier, *URL Escaped - valid query parameter',
+	},
+	{
+		displayName: 'Content',
+		name: 'content',
+		type: 'string',
+		displayOptions: {
+			show: {
+				resource: ['public'],
+				operation: ['messageCreate'],
+			},
+		},
+		default: '',
+		description: 'Text Message Content',
 	},
 	{
 		displayName: 'Custom Attributes',

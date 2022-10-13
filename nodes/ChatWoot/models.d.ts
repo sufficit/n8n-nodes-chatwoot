@@ -16,4 +16,9 @@ export declare namespace CWModels {
 		identifier?: string;
 		custom_attributes?: any;
 	};
+
+	export type CreateMessageRequest = {
+		content: string;
+		echo_id?: string;
+	};
 }

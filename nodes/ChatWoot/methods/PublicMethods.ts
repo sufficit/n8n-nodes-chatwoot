@@ -10,10 +10,10 @@ import {
 import { CWModels } from '../models';
 
 export async function resourcePublic(this: IExecuteFunctions, operation: string, items: any, i: number): Promise<any> { // tslint:disable-line:no-any
-	const baseEndpoint = '/public/api/v1/inboxes/{{inboxIdentifier}}';
+	const baseEndpoint = '/public/api/v1/inboxes/{{inbox_identifier}}';
 
 	const inboxIdentifier = this.getNodeParameter('inboxIdentifier', i) as string;
-	let endpoint: string = baseEndpoint.replace('{{inboxIdentifier}}', inboxIdentifier);
+	let endpoint: string = baseEndpoint.replace('{{inbox_identifier}}', inboxIdentifier);
 
 	let responseData;
 	if (operation === 'contactCreate') {
@@ -42,18 +42,33 @@ export async function resourcePublic(this: IExecuteFunctions, operation: string,
 		responseData = await apiRequest.call(this, 'POST', endpoint, body);
 	}
 	else if (operation === 'contact'){
-		endpoint = endpoint + "/contacts/{{contactIdentifier}}";
+		endpoint = endpoint + "/contacts/{{contact_identifier}}";
 
 		const contactIdentifier = this.getNodeParameter('contactIdentifier', i) as string;
-		endpoint = endpoint.replace('{{contactIdentifier}}', contactIdentifier);
+		endpoint = endpoint.replace('{{contact_identifier}}', contactIdentifier);
 
 		responseData = await apiRequest.call(this, 'GET', endpoint);
 	}
-	else if (operation === 'messages') {
-		endpoint = endpoint + "/contacts/{{contactIdentifier}}/conversations/{{conversationId}}/messages";
+	else if (operation === 'messageCreate') {
+		const body: CWModels.CreateMessageRequest = {
+			content: this.getNodeParameter('content', i) as string,
+		};
+
+		endpoint = endpoint + "/contacts/{{contact_identifier}}/conversations/{{conversation_id}}/messages";
 
 		const contactIdentifier = this.getNodeParameter('contactIdentifier', i) as string;
-		endpoint = endpoint.replace('{{contactIdentifier}}', contactIdentifier);
+		endpoint = endpoint.replace('{{contact_identifier}}', contactIdentifier);
+
+		const conversationId = this.getNodeParameter('conversationId', i) as string;
+		endpoint = endpoint.replace('{{conversation_id}}', conversationId);
+
+		responseData = await apiRequest.call(this, 'POST', endpoint, body);
+	}
+	else if (operation === 'messages') {
+		endpoint = endpoint + "/contacts/{{contact_identifier}}/conversations/{{conversationId}}/messages";
+
+		const contactIdentifier = this.getNodeParameter('contactIdentifier', i) as string;
+		endpoint = endpoint.replace('{{contact_identifier}}', contactIdentifier);
 
 		const conversationId = this.getNodeParameter('conversationId', i) as string;
 		endpoint = endpoint.replace('{{conversationId}}', conversationId);
