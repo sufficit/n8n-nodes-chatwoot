@@ -11,10 +11,12 @@ import {
 } from 'n8n-workflow';
 import {
 	accountDescription,
+	contactDescription,
 	publicDescription
 } from './descriptions';
 import {
 	resourceAccount,
+	resourceContact,
 	resourcePublic
 } from './methods';
 import { requestAccountOptions } from './GenericFunctions';
@@ -97,9 +99,7 @@ export class ChatWoot implements INodeType {
 						authentication: [
 							'parametersCredentialType',
 						],
-						resource: [
-							'account',
-						],
+						resource: ['account','contact'],
 					},
 				},
 			},
@@ -114,14 +114,32 @@ export class ChatWoot implements INodeType {
 						value: 'account',
 					},
 					{
+						name: 'Contact',
+						value: 'contact',
+					},
+					{
 						name: 'Public',
 						value: 'public',
 					},
 				],
-				default: 'account',
+				default: 'public',
 				required: true,
 			},
+			{
+				displayName: 'Account ID',
+				name: 'accountId',
+				type: 'string',
+				displayOptions: {
+					show: {
+						resource: ['account', 'contact'],
+						operation: ['accountInformation', 'contactUpdate'],
+					},
+				},
+				default: '',
+				description: '(Optional) Account ID reference, this settings will override credentials',
+			},
 			...accountDescription,
+			...contactDescription,
 			...publicDescription,
 		],
 	};
@@ -162,14 +180,13 @@ export class ChatWoot implements INodeType {
 				if (resource === 'account') {
 					responseData = await resourceAccount.call(this, operation, items, i);
 				}
+				else if (resource === 'contact') {
+					responseData = await resourceContact.call(this, operation, items, i);
+				}
 				else if (resource === 'public') {
 					responseData = await resourcePublic.call(this, operation, items, i);
 				}
-				/*
-				else if (resource === 'webhook') {
-						responseData = await resourceWebhook.call(this, operation, items, i)
-				}
-				*/
+
 				if (Array.isArray(responseData)) {
 					returnData.push.apply(returnData, responseData as IDataObject[]);
 				} else if (responseData !== undefined) {

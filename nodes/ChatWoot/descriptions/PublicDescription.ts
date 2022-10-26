@@ -58,17 +58,18 @@ export const publicDescription: INodeProperties[] = [
 		default: '',
 	},
 	{
-		displayName: 'Contact Identifier',
-		name: 'contactIdentifier',
+		displayName: 'Source ID',
+		name: 'sourceId',
 		type: 'string',
+		required: true,
 		displayOptions: {
 			show: {
 				resource: ['public'],
-				operation: ['messageCreate', 'messages', 'contact'],
+				operation: ['messageCreate', 'messages', 'contact', 'contactCreate'],
 			},
 		},
-		required: true,
 		default: '',
+		description: 'Internal Source Contact Identifier, used for search, URL escaped or HEX',
 	},
 	{
 		displayName: 'Conversation ID',
@@ -83,59 +84,6 @@ export const publicDescription: INodeProperties[] = [
 		required: true,
 		default: '',
 	},
-
-	// Contact Create
-	{
-		displayName: 'Name',
-		name: 'name',
-		type: 'string',
-		displayOptions: {
-			show: {
-				resource: ['public'],
-				operation: ['contactCreate'],
-			},
-		},
-		required: true,
-		default: '',
-	},
-	{
-		displayName: 'Phone Number',
-		name: 'phoneNumber',
-		type: 'string',
-		displayOptions: {
-			show: {
-				resource: ['public'],
-				operation: ['contactCreate'],
-			},
-		},
-		default: '',
-	},
-	{
-		displayName: 'E-Mail',
-		name: 'email',
-		type: 'string',
-		displayOptions: {
-			show: {
-				resource: ['public'],
-				operation: ['contactCreate'],
-			},
-		},
-		placeholder: 'email@domain.com',
-		default: '',
-	},
-	{
-		displayName: 'Identifier',
-		name: 'identifier',
-		type: 'string',
-		displayOptions: {
-			show: {
-				resource: ['public'],
-				operation: ['contactCreate'],
-			},
-		},
-		default: '',
-		description: '(Optional) External API Contact identifier, *URL Escaped - valid query parameter',
-	},
 	{
 		displayName: 'Content',
 		name: 'content',
@@ -148,43 +96,5 @@ export const publicDescription: INodeProperties[] = [
 		},
 		default: '',
 		description: 'Text Message Content',
-	},
-	{
-		displayName: 'Custom Attributes',
-		name: 'customAttributes',
-		placeholder: 'Add Attributes',
-		type: 'fixedCollection',
-		typeOptions: {
-			multipleValues: true,
-		},
-		displayOptions: {
-			show: {
-				resource: ['public'],
-				operation: ['contactCreate'],
-			},
-		},
-		default: {},
-		options: [
-			{
-				name: 'attribute',
-				displayName: 'Attributes',
-				values: [
-					{
-						displayName: 'Key',
-						name: 'key',
-						type: 'string',
-						default: '',
-						description: 'Key of the attribute',
-					},
-					{
-						displayName: 'Value',
-						name: 'value',
-						type: 'string',
-						default: '',
-						description: 'Value to set for the attribute',
-					},
-				],
-			},
-		],
 	},
 ];

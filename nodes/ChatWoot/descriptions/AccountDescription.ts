@@ -18,28 +18,11 @@ export const accountDescription: INodeProperties[] = [
 		options: [
 			{
 				name: 'Information',
-				value: 'information',
+				value: 'accountInformation',
 				description: 'Get details about an account',
-				action: 'Information an account',
+				action: 'Information about an account',
 			},
 		],
-		default: 'information',
-	},
-	{
-		displayName: 'Account ID',
-		name: 'accountId',
-		type: 'string',
-		displayOptions: {
-			show: {
-				resource: [
-					'account',
-				],
-				operation: [
-					'information',
-				],
-			},
-		},
-		default: '',
-		description: '(Optional) Get account details',
+		default: 'accountInformation',
 	},
 ];

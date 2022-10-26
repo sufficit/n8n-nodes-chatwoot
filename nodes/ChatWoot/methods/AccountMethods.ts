@@ -26,7 +26,7 @@ export async function resourceAccount(this: IExecuteFunctions, operation: string
 	};
 
 	let responseData;
-	if (operation === 'information') {
+	if (operation === 'accountInformation') {
 		let endpoint = '/api/v1/accounts/{{accountId}}';
 		endpoint = endpoint.replace('{{accountId}}', accountId);
 		responseData = await apiRequest.call(this, 'GET', endpoint, {}, {}, headers);
