@@ -21,9 +21,10 @@ export async function resourcePublic(this: IExecuteFunctions, operation: string,
 
 		const body: CWModels.ContactGetOrCreateRequest = {
 			name: this.getNodeParameter('name', i) as string,
-			phone_number: this.getNodeParameter('phoneNumber', i) as string | undefined,
-			email: this.getNodeParameter('email', i) as string | undefined,
-			source_id: this.getNodeParameter('identifier', i) as string | undefined,
+			phone_number: this.getNodeParameter('phoneNumber', i, '') as string,
+			email: this.getNodeParameter('email', i, '') as string,
+			source_id: this.getNodeParameter('sourceId', i, '') as string,
+			identifier: this.getNodeParameter('contactIdentifier', i, '') as string,
 		};
 
 		// Handle custom headers
@@ -42,10 +43,10 @@ export async function resourcePublic(this: IExecuteFunctions, operation: string,
 		responseData = await apiRequest.call(this, 'POST', endpoint, body);
 	}
 	else if (operation === 'contact'){
-		endpoint = endpoint + "/contacts/{{contact_identifier}}";
+		endpoint = endpoint + "/contacts/{{source_id}}";
 
-		const contactIdentifier = this.getNodeParameter('contactIdentifier', i) as string;
-		endpoint = endpoint.replace('{{contact_identifier}}', contactIdentifier);
+		const contactIdentifier = this.getNodeParameter('sourceId', i) as string;
+		endpoint = endpoint.replace('{{source_id}}', contactIdentifier);
 
 		responseData = await apiRequest.call(this, 'GET', endpoint);
 	}
@@ -54,10 +55,10 @@ export async function resourcePublic(this: IExecuteFunctions, operation: string,
 			content: this.getNodeParameter('content', i) as string,
 		};
 
-		endpoint = endpoint + "/contacts/{{contact_identifier}}/conversations/{{conversation_id}}/messages";
+		endpoint = endpoint + "/contacts/{{source_id}}/conversations/{{conversation_id}}/messages";
 
-		const contactIdentifier = this.getNodeParameter('contactIdentifier', i) as string;
-		endpoint = endpoint.replace('{{contact_identifier}}', contactIdentifier);
+		const contactIdentifier = this.getNodeParameter('sourceId', i) as string;
+		endpoint = endpoint.replace('{{source_id}}', contactIdentifier);
 
 		const conversationId = this.getNodeParameter('conversationId', i) as string;
 		endpoint = endpoint.replace('{{conversation_id}}', conversationId);
@@ -65,10 +66,10 @@ export async function resourcePublic(this: IExecuteFunctions, operation: string,
 		responseData = await apiRequest.call(this, 'POST', endpoint, body);
 	}
 	else if (operation === 'messages') {
-		endpoint = endpoint + "/contacts/{{contact_identifier}}/conversations/{{conversationId}}/messages";
+		endpoint = endpoint + "/contacts/{{source_id}}/conversations/{{conversationId}}/messages";
 
-		const contactIdentifier = this.getNodeParameter('contactIdentifier', i) as string;
-		endpoint = endpoint.replace('{{contact_identifier}}', contactIdentifier);
+		const contactIdentifier = this.getNodeParameter('sourceId', i) as string;
+		endpoint = endpoint.replace('{{source_id}}', contactIdentifier);
 
 		const conversationId = this.getNodeParameter('conversationId', i) as string;
 		endpoint = endpoint.replace('{{conversationId}}', conversationId);
