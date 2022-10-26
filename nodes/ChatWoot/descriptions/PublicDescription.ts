@@ -14,7 +14,7 @@ export const publicDescription: INodeProperties[] = [
 		options: [
 			{
 				name: 'Create Contact',
-				value: 'contactCreate',
+				value: 'publicContactCreate',
 				action: 'Create contact a public',
 			},
 			{
@@ -65,7 +65,7 @@ export const publicDescription: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['public'],
-				operation: ['messageCreate', 'messages', 'contact', 'contactCreate'],
+				operation: ['messageCreate', 'messages', 'contact', 'publicContactCreate'],
 			},
 		},
 		default: '',
