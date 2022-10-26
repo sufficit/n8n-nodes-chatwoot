@@ -20,6 +20,12 @@ export const contactDescription: INodeProperties[] = [
 				description: 'Update Contact Details',
 				action: 'Contact update',
 			},
+			{
+				name: 'Create',
+				value: 'contactCreate',
+				description: 'Update Create',
+				action: 'Contact create',
+			},
 		],
 		default: 'contactUpdate',
 	},
@@ -44,7 +50,7 @@ export const contactDescription: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['contact'],
-				operation: ['contactUpdate'],
+				operation: ['contactUpdate','contactCreate'],
 			},
 		},
 		default: '',
@@ -57,7 +63,7 @@ export const contactDescription: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['contact', 'public'],
-				operation: ['contactUpdate', 'contactCreate'],
+				operation: ['contactUpdate','contactCreate','publicContactCreate'],
 			},
 		},
 		default: '',
@@ -69,7 +75,7 @@ export const contactDescription: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['contact', 'public'],
-				operation: ['contactUpdate', 'contactCreate'],
+				operation: ['contactUpdate','contactCreate','publicContactCreate'],
 			},
 		},
 		default: '',
@@ -81,7 +87,7 @@ export const contactDescription: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['contact', 'public'],
-				operation: ['contactUpdate', 'contactCreate'],
+				operation: ['contactUpdate','contactCreate','publicContactCreate'],
 			},
 		},
 		default: '',
@@ -93,7 +99,7 @@ export const contactDescription: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['contact', 'public'],
-				operation: ['contactUpdate', 'contactCreate'],
+				operation: ['contactUpdate','contactCreate','publicContactCreate'],
 			},
 		},
 		placeholder: 'email@domain.com',
@@ -109,7 +115,7 @@ export const contactDescription: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['contact', 'public'],
-				operation: ['contactUpdate', 'contactCreate'],
+				operation: ['contactUpdate','contactCreate','publicContactCreate'],
 			},
 		},
 		default: {},

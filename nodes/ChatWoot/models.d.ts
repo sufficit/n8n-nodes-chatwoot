@@ -8,8 +8,8 @@ export declare namespace CWModels {
 		accountId: string;
 	};
 
-	export type ContactUpdateRequest = {
-		name?: string;
+	export type ContactCreateRequest = {
+		name: string;
 		inbox_id?: string;
 		phone_number?: string;
 		email?: string;
@@ -18,8 +18,9 @@ export declare namespace CWModels {
 		custom_attributes?: any;
 	};
 
-	export type ContactGetOrCreateRequest = {
-		name: string;
+	export type ContactUpdateRequest = {
+		name?: string;
+		inbox_id?: string;
 		phone_number?: string;
 		email?: string;
 		source_id?: string;

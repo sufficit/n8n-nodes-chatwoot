@@ -59,5 +59,34 @@ export async function resourceContact(this: IExecuteFunctions, operation: string
 		responseData = await apiRequest.call(this, 'PACTH', endpoint, body, {}, headers);
 	}
 
+	if (operation === 'contactCreate') {
+
+		const body: CWModels.ContactUpdateRequest = {
+			name: this.getNodeParameter('name', i, null) as string | undefined,
+			inbox_id: this.getNodeParameter('inboxId', i, null) as string | undefined,
+			phone_number: this.getNodeParameter('phoneNumber', i, null) as string | undefined,
+			email: this.getNodeParameter('email', i, null) as string | undefined,
+			source_id: this.getNodeParameter('sourceId', i, null) as string | undefined,
+			identifier: this.getNodeParameter('contactIdentifier', i, null) as string | undefined,
+		};
+
+		// Handle custom headers
+		const parCustomAttributes = this.getNodeParameter('customAttributes', i, null) as IDataObject;
+		if (parCustomAttributes && parCustomAttributes.attribute) {
+			const data: IDataObject = {};
+
+			const atts = parCustomAttributes.attribute as IDataObject[];
+			atts.map(property => {
+				data[property.key as string] = property.value;
+			});
+
+			body.custom_attributes = data;
+		}
+
+		let endpoint = baseEndpoint + '/api/v1/accounts/{{accountId}}/contacts';
+		endpoint = endpoint.replace('{{accountId}}', accountId);
+		responseData = await apiRequest.call(this, 'POST', endpoint, body, {}, headers);
+	}
+
 	return responseData;
 }

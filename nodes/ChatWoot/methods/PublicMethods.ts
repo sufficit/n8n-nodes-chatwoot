@@ -16,15 +16,16 @@ export async function resourcePublic(this: IExecuteFunctions, operation: string,
 	let endpoint: string = baseEndpoint.replace('{{inbox_identifier}}', inboxIdentifier);
 
 	let responseData;
-	if (operation === 'contactCreate') {
+	if (operation === 'publicContactCreate') {
 		endpoint = endpoint + "/contacts";
 
-		const body: CWModels.ContactGetOrCreateRequest = {
+		const body: CWModels.ContactCreateRequest = {
 			name: this.getNodeParameter('name', i) as string,
-			phone_number: this.getNodeParameter('phoneNumber', i, '') as string,
-			email: this.getNodeParameter('email', i, '') as string,
-			source_id: this.getNodeParameter('sourceId', i, '') as string,
-			identifier: this.getNodeParameter('contactIdentifier', i, '') as string,
+			inbox_id: this.getNodeParameter('inboxId', i, null) as string | undefined,
+			phone_number: this.getNodeParameter('phoneNumber', i, null) as string | undefined,
+			email: this.getNodeParameter('email', i, null) as string | undefined,
+			source_id: this.getNodeParameter('sourceId', i, null) as string | undefined,
+			identifier: this.getNodeParameter('contactIdentifier', i, null) as string | undefined,
 		};
 
 		// Handle custom headers
