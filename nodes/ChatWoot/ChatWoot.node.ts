@@ -138,6 +138,19 @@ export class ChatWoot implements INodeType {
 				default: '',
 				description: '(Optional) Account ID reference, this settings will override credentials',
 			},
+			{
+				displayName: 'Source ID',
+				name: 'sourceId',
+				type: 'string',
+				displayOptions: {
+					show: {
+						resource: ['public','contact'],
+						operation: ['messageCreate','messages','contact','contactCreate','contactUpdate','publicContactCreate'],
+					},
+				},
+				default: '',
+				description: 'Internal Source Contact Identifier, used for search, URL escaped or HEX',
+			},
 			...accountDescription,
 			...contactDescription,
 			...publicDescription,

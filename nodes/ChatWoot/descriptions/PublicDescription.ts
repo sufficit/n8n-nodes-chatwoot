@@ -58,20 +58,6 @@ export const publicDescription: INodeProperties[] = [
 		default: '',
 	},
 	{
-		displayName: 'Source ID',
-		name: 'sourceId',
-		type: 'string',
-		required: true,
-		displayOptions: {
-			show: {
-				resource: ['public'],
-				operation: ['messageCreate', 'messages', 'contact', 'publicContactCreate'],
-			},
-		},
-		default: '',
-		description: 'Internal Source Contact Identifier, used for search, URL escaped or HEX',
-	},
-	{
 		displayName: 'Conversation ID',
 		name: 'conversationId',
 		type: 'string',
