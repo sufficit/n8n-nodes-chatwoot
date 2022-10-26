@@ -25,7 +25,7 @@ export async function resourceContact(this: IExecuteFunctions, operation: string
 		'api_access_token': accessToken,
 	};
 
-	const baseEndpoint = '/api/v1';
+	const apiVersionPrefix = '/api/v1';
 
 	let responseData;
 	if (operation === 'contactUpdate') {
@@ -52,7 +52,7 @@ export async function resourceContact(this: IExecuteFunctions, operation: string
 			body.custom_attributes = data;
 		}
 
-		let endpoint = baseEndpoint + '/api/v1/accounts/{{accountId}}/contacts/{{contactId}}';
+		let endpoint = apiVersionPrefix + '/accounts/{{accountId}}/contacts/{{contactId}}';
 		endpoint = endpoint.replace('{{accountId}}', accountId);
 		endpoint = endpoint.replace('{{contactId}}', this.getNodeParameter('contactId', i) as string);
 
@@ -83,7 +83,7 @@ export async function resourceContact(this: IExecuteFunctions, operation: string
 			body.custom_attributes = data;
 		}
 
-		let endpoint = baseEndpoint + '/api/v1/accounts/{{accountId}}/contacts';
+		let endpoint = apiVersionPrefix + '/accounts/{{accountId}}/contacts';
 		endpoint = endpoint.replace('{{accountId}}', accountId);
 		responseData = await apiRequest.call(this, 'POST', endpoint, body, {}, headers);
 	}
