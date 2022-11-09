@@ -54,7 +54,7 @@ export async function apiRequest(this: IExecuteFunctions, method: string, endpoi
 	try {
 		const responseData = await this.helpers.request!(options);
 		if (responseData.success === false) {
-			throw new NodeApiError(this.getNode(), responseData);
+			throw new Error(responseData);
 		}
 
 		return responseData;
