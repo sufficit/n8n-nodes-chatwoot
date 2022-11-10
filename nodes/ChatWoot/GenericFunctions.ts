@@ -5,6 +5,9 @@ import {
 import {
 	IDataObject,
 	IExecuteFunctions,
+	IHttpRequestMethods,
+	IHttpRequestOptions,
+	IN8nHttpResponse,
 	NodeApiError,
 } from 'n8n-workflow';
 
@@ -19,7 +22,7 @@ class RequestError extends Error {
 	}
 }
 
-export async function apiRequest(this: IExecuteFunctions, method: string, endpoint: string, body: any = {}, qs: IDataObject = {}, headers: IDataObject = {}): Promise<any> { // tslint:disable-line:no-any
+export async function apiRequest(this: IExecuteFunctions, method: IHttpRequestMethods, endpoint: string, body: any = {}, qs: IDataObject = {}, headers: IDataObject = {}): Promise<any> { // tslint:disable-line:no-any
 	let baseUrl = this.getNodeParameter('baseUrl', 0, '') as string;
 	if (!baseUrl) {
 			const credentials = await this.getCredentials('chatWootTokenApi') as CWModels.Credentials;
@@ -28,13 +31,13 @@ export async function apiRequest(this: IExecuteFunctions, method: string, endpoi
 
 	const endpointUri: string = baseUrl + endpoint;
 
-	const options: OptionsWithUri = {
+	const options: IHttpRequestOptions = {
 		headers: {
 			Accept: 'application/json',
 		},
 		method,
 		qs,
-		uri: endpointUri,
+		url: endpointUri,
 		json: true,
 	};
 
@@ -52,14 +55,8 @@ export async function apiRequest(this: IExecuteFunctions, method: string, endpoi
 	}
 
 	try {
-		const responseData = await this.helpers.request!(options);
-		if (responseData.success === false) {
-			throw new Error(responseData);
-		}
-
-		return responseData;
+		return await this.helpers.httpRequest(options);
 	} catch (error) {
-		error = new RequestError(options, error.status, error.message);
 		throw new NodeApiError(this.getNode(), error);
 	}
 }

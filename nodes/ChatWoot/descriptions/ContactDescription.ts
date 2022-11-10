@@ -15,6 +15,18 @@ export const contactDescription: INodeProperties[] = [
 		},
 		options: [
 			{
+				name: 'Get Contact Details',
+				value: 'contactDetails',
+				description: 'Retrieve Contact Details',
+				action: 'Contact details',
+			},
+			{
+				name: 'Search Contacts',
+				value: 'contactSearch',
+				description: 'Search Contacts By name|identifier|email|phone_number',
+				action: 'Contact search',
+			},
+			{
 				name: 'Update | Patch',
 				value: 'contactUpdate',
 				description: 'Update Contact Details',
@@ -27,7 +39,21 @@ export const contactDescription: INodeProperties[] = [
 				action: 'Contact create',
 			},
 		],
-		default: 'contactUpdate',
+		default: 'contactDetails',
+	},
+	{
+		displayName: 'Query',
+		name: 'contactSearchQuery',
+		type: 'string',
+		required: true,
+		displayOptions: {
+			show: {
+				resource: ['contact'],
+				operation: ['contactSearch'],
+			},
+		},
+		default: '',
+		description: 'Query text to search',
 	},
 	{
 		displayName: 'Contact ID',
@@ -37,7 +63,7 @@ export const contactDescription: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['contact'],
-				operation: ['contactUpdate'],
+				operation: ['contactUpdate','contactDetails'],
 			},
 		},
 		default: '',

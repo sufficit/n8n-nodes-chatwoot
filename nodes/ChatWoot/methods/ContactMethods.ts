@@ -52,14 +52,13 @@ export async function resourceContact(this: IExecuteFunctions, operation: string
 			body.custom_attributes = data;
 		}
 
-		let endpoint = apiVersionPrefix + '/accounts/{{accountId}}/contacts/{{contactId}}';
-		endpoint = endpoint.replace('{{accountId}}', accountId);
-		endpoint = endpoint.replace('{{contactId}}', this.getNodeParameter('contactId', i) as string);
+		let endpoint = apiVersionPrefix + '/accounts/:account_id/contacts/:contact_id';
+		endpoint = endpoint.replace(':account_id', accountId);
+		endpoint = endpoint.replace(':contact_id', this.getNodeParameter('contactId', i) as string);
 
-		responseData = await apiRequest.call(this, 'PACTH', endpoint, body, {}, headers);
+		responseData = await apiRequest.call(this, 'PATCH', endpoint, body, {}, headers);
 	}
-
-	if (operation === 'contactCreate') {
+	else if (operation === 'contactCreate') {
 
 		const body: CWModels.ContactUpdateRequest = {
 			name: this.getNodeParameter('name', i, null) as string | undefined,
@@ -83,9 +82,25 @@ export async function resourceContact(this: IExecuteFunctions, operation: string
 			body.custom_attributes = data;
 		}
 
-		let endpoint = apiVersionPrefix + '/accounts/{{accountId}}/contacts';
-		endpoint = endpoint.replace('{{accountId}}', accountId);
+		let endpoint = apiVersionPrefix + '/accounts/:account_id/contacts';
+		endpoint = endpoint.replace(':account_id', accountId);
 		responseData = await apiRequest.call(this, 'POST', endpoint, body, {}, headers);
+	}
+	else if (operation === 'contactSearch') {
+
+		const query: IDataObject = {};
+		query["q"] = this.getNodeParameter('contactSearchQuery', i) as string;
+
+		let endpoint = apiVersionPrefix + '/accounts/:account_id/contacts/search';
+		endpoint = endpoint.replace(':account_id', accountId);
+		responseData = await apiRequest.call(this, 'GET', endpoint, {}, query, headers);
+	}
+	else if (operation === 'contactDetails') {
+
+		let endpoint = apiVersionPrefix + '/accounts/:account_id/contacts/:contact_id';
+		endpoint = endpoint.replace(':account_id', accountId);
+		endpoint = endpoint.replace(':contact_id', this.getNodeParameter('contactId', i) as string);
+		responseData = await apiRequest.call(this, 'GET', endpoint, {}, {}, headers);
 	}
 
 	return responseData;

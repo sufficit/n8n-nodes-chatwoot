@@ -132,7 +132,7 @@ export class ChatWoot implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['account', 'contact'],
-						operation: ['accountInformation','contactUpdate','contactCreate'],
+						operation: ['accountInformation','contactDetails','contactSearch','contactUpdate','contactCreate'],
 					},
 				},
 				default: '',
