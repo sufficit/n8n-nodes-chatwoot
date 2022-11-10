@@ -60,14 +60,25 @@ export async function resourceContact(this: IExecuteFunctions, operation: string
 	}
 	else if (operation === 'contactCreate') {
 
-		const body: CWModels.ContactUpdateRequest = {
-			name: this.getNodeParameter('name', i, null) as string | undefined,
-			inbox_id: this.getNodeParameter('inboxId', i, null) as string | undefined,
-			phone_number: this.getNodeParameter('phoneNumber', i, null) as string | undefined,
-			email: this.getNodeParameter('email', i, null) as string | undefined,
-			source_id: this.getNodeParameter('sourceId', i, null) as string | undefined,
-			identifier: this.getNodeParameter('contactIdentifier', i, null) as string | undefined,
-		};
+		const body: CWModels.ContactUpdateRequest = {};
+
+		const parName = this.getNodeParameter('name', i, null) as string | undefined;
+		if (parName){ body.name = parName; }
+
+		const parInboxId = this.getNodeParameter('inboxId', i, null) as string | undefined;
+		if (parInboxId){ body.inbox_id = parInboxId; }
+
+		const parPhoneNumber = this.getNodeParameter('phoneNumber', i, null) as string | undefined;
+		if (parPhoneNumber){ body.phone_number = parPhoneNumber; }
+
+		const parEmail = this.getNodeParameter('email', i, null) as string | undefined;
+		if (parEmail){ body.email = parEmail; }
+
+		const parSourceId = this.getNodeParameter('sourceId', i, null) as string | undefined;
+		if (parSourceId){ body.source_id = parSourceId; }
+
+		const parIdentifier = this.getNodeParameter('contactIdentifier', i, null) as string | undefined;
+		if (parIdentifier){ body.identifier = parIdentifier; }
 
 		// Handle custom headers
 		const parCustomAttributes = this.getNodeParameter('customAttributes', i, null) as IDataObject;
