@@ -1,6 +1,6 @@
 {
   "name": "@sufficit/n8n-nodes-chatwoot",
-  "version": "0.1.36",
+  "version": "0.1.37",
   "description": "This is an n8n community node. It lets you use ChatWoot in your n8n workflows.",
   "keywords": [
     "n8n-community-node-package",
@@ -45,7 +45,7 @@
     "eslint-plugin-n8n-nodes-base": "^1.5.4",
     "gulp": "^4.0.2",
     "lerna": "^5.5.2",
-    "n8n-core": "^0.135.0",
+    "n8n-core": "^0.125.0",
     "n8n-workflow": "^0.107.0",
     "prettier": "^2.7.1",
     "tslint": "^6.1.2",

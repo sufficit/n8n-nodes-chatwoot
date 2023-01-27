@@ -26,7 +26,7 @@ _If users need to authenticate with the app/service, provide details here. You s
 
 ## Compatibility
 
-_State the minimum n8n version, as well as which versions you test against. You can also include any known version incompatibility issues._
+Tested on N8N > v0.210 (Success)
 
 ## Usage
 
