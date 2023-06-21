@@ -27,7 +27,7 @@ export const contactDescription: INodeProperties[] = [
 				action: 'Contact search',
 			},
 			{
-				name: 'Update | Patch',
+				name: 'Update | Put',
 				value: 'contactUpdate',
 				description: 'Update Contact Details',
 				action: 'Contact update',
