@@ -56,5 +56,8 @@
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "n8n-nodes-chatwoot": "file:"
+  }
 }
