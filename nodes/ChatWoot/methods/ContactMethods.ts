@@ -56,7 +56,7 @@ export async function resourceContact(this: IExecuteFunctions, operation: string
 		endpoint = endpoint.replace(':account_id', accountId);
 		endpoint = endpoint.replace(':contact_id', this.getNodeParameter('contactId', i) as string);
 
-		responseData = await apiRequest.call(this, 'PATCH', endpoint, body, {}, headers);
+		responseData = await apiRequest.call(this, 'PUT', endpoint, body, {}, headers);
 	}
 	else if (operation === 'contactCreate') {
 
