@@ -11,13 +11,25 @@ import {
 } from 'n8n-workflow';
 import {
 	accountDescription,
+	agentDescription,
 	contactDescription,
-	publicDescription
+	conversationDescription,
+	inboxDescription,
+	labelDescription,
+	messageDescription,
+	publicDescription,
+	teamDescription,
 } from './descriptions';
 import {
 	resourceAccount,
+	resourceAgent,
 	resourceContact,
-	resourcePublic
+	resourceConversation,
+	resourceInbox,
+	resourceLabel,
+	resourceMessage,
+	resourcePublic,
+	resourceTeam,
 } from './methods';
 import { requestAccountOptions } from './GenericFunctions';
 import { CWModels } from './models';
@@ -39,70 +51,10 @@ export class ChatWoot implements INodeType {
 		credentials: [
 			{
 				name: 'chatWootTokenApi',
-				testedBy: 'chatWootTokenTest',
 				required: true,
-				displayOptions: {
-					show: {
-						authentication: [
-							'predefinedCredentialType',
-						],
-					},
-				},
 			},
 		],
 		properties: [
-			{
-				displayName: 'Authentication',
-				name: 'authentication',
-				noDataExpression: true,
-				type: 'options',
-				required: true,
-				options: [
-					{
-						name: 'Parameters',
-						value: 'parametersCredentialType',
-					},
-					{
-						name: 'Predefined Chatwoot Credentials',
-						value: 'predefinedCredentialType',
-						description: 'BaseUrl + Token',
-					},
-				],
-				default: 'parametersCredentialType',
-			},
-			{
-				displayName: 'BaseUrl',
-				name: 'baseUrl',
-				type: 'string',
-				default: '',
-				required: true,
-				description: 'Base URL',
-				placeholder: 'https://chatwoot.org',
-				displayOptions: {
-					show: {
-						authentication: [
-							'parametersCredentialType',
-						],
-					},
-				},
-			},
-			{
-				displayName: 'Access Token',
-				name: 'accessToken',
-				type: 'string',
-				default: '',
-				required: true,
-				description: 'Token of chatwoot, override credentials',
-				placeholder: '00000000-0000-0000-0000-000000000000',
-				displayOptions: {
-					show: {
-						authentication: [
-							'parametersCredentialType',
-						],
-						resource: ['account','contact'],
-					},
-				},
-			},
 			{
 				displayName: 'Resource',
 				name: 'resource',
@@ -114,29 +66,52 @@ export class ChatWoot implements INodeType {
 						value: 'account',
 					},
 					{
+						name: 'Agent',
+						value: 'agent',
+					},
+					{
 						name: 'Contact',
 						value: 'contact',
+					},
+					{
+						name: 'Conversation',
+						value: 'conversation',
+					},
+					{
+						name: 'Inbox',
+						value: 'inbox',
+					},
+					{
+						name: 'Label',
+						value: 'label',
+					},
+					{
+						name: 'Message',
+						value: 'message',
 					},
 					{
 						name: 'Public',
 						value: 'public',
 					},
+					{
+						name: 'Team',
+						value: 'team',
+					},
 				],
-				default: 'public',
+				default: 'conversation',
 				required: true,
 			},
 			{
-				displayName: 'Account ID',
+				displayName: 'Account ID Override',
 				name: 'accountId',
 				type: 'string',
 				displayOptions: {
 					show: {
-						resource: ['account', 'contact'],
-						operation: ['accountInformation','contactDetails','contactSearch','contactUpdate','contactCreate'],
+						resource: ['account', 'agent', 'contact', 'conversation', 'inbox', 'label', 'message', 'team'],
 					},
 				},
 				default: '',
-				description: '(Optional) Account ID reference, this settings will override credentials',
+				description: 'Optional: Override the Account ID from credentials for this specific operation',
 			},
 			{
 				displayName: 'Source ID',
@@ -152,8 +127,14 @@ export class ChatWoot implements INodeType {
 				description: 'Internal Source Contact Identifier, used for search, URL escaped or HEX',
 			},
 			...accountDescription,
+			...agentDescription,
 			...contactDescription,
+			...conversationDescription,
+			...inboxDescription,
+			...labelDescription,
+			...messageDescription,
 			...publicDescription,
+			...teamDescription,
 		],
 	};
 
@@ -193,11 +174,29 @@ export class ChatWoot implements INodeType {
 				if (resource === 'account') {
 					responseData = await resourceAccount.call(this, operation, items, i);
 				}
+				else if (resource === 'agent') {
+					responseData = await resourceAgent.call(this, operation, items, i);
+				}
 				else if (resource === 'contact') {
 					responseData = await resourceContact.call(this, operation, items, i);
 				}
+				else if (resource === 'conversation') {
+					responseData = await resourceConversation.call(this, operation, items, i);
+				}
+				else if (resource === 'inbox') {
+					responseData = await resourceInbox.call(this, operation, items, i);
+				}
+				else if (resource === 'label') {
+					responseData = await resourceLabel.call(this, operation, items, i);
+				}
+				else if (resource === 'message') {
+					responseData = await resourceMessage.call(this, operation, items, i);
+				}
 				else if (resource === 'public') {
 					responseData = await resourcePublic.call(this, operation, items, i);
+				}
+				else if (resource === 'team') {
+					responseData = await resourceTeam.call(this, operation, items, i);
 				}
 
 				if (Array.isArray(responseData)) {

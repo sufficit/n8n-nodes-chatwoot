@@ -10,16 +10,11 @@ import {
 import { CWModels } from '../models';
 
 export async function resourceContact(this: IExecuteFunctions, operation: string, items: any, i: number): Promise<any> { // tslint:disable-line:no-any
-	let accessToken = this.getNodeParameter('accessToken', i, '') as string;
-	let accountId = this.getNodeParameter('accountId', i, '') as string;
+	const credentials = await this.getCredentials('chatWootTokenApi') as CWModels.Credentials;
 
-	if (!accountId) {
-		const credentials = await this.getCredentials('chatWootTokenApi') as CWModels.Credentials;
-		if (credentials) {
-			accessToken = accessToken || credentials.accessToken;
-			accountId = accountId || credentials.accountId;
-		}
-	}
+	// Allow account ID override from node parameters, otherwise use credentials
+	const accountId = this.getNodeParameter('accountId', i, '') as string || credentials.accountId;
+	const accessToken = credentials.accessToken;
 
 	const headers: IDataObject = {
 		'api_access_token': accessToken,
@@ -105,6 +100,54 @@ export async function resourceContact(this: IExecuteFunctions, operation: string
 		let endpoint = apiVersionPrefix + '/accounts/:account_id/contacts/search';
 		endpoint = endpoint.replace(':account_id', accountId);
 		responseData = await apiRequest.call(this, 'GET', endpoint, {}, query, headers);
+
+		// Fetch conversations for each contact found
+		if (responseData && responseData.payload && Array.isArray(responseData.payload)) {
+			for (const contact of responseData.payload) {
+				const conversationsEndpoint = apiVersionPrefix + '/accounts/:account_id/contacts/:contact_id/conversations';
+				const finalEndpoint = conversationsEndpoint
+					.replace(':account_id', accountId)
+					.replace(':contact_id', contact.id.toString());
+
+				try {
+					const conversationsData = await apiRequest.call(this, 'GET', finalEndpoint, {}, {}, headers);
+					contact.conversations = conversationsData.payload || [];
+				} catch (error) {
+					// If conversations fetch fails, set empty array
+					contact.conversations = [];
+				}
+			}
+		}
+	}
+	else if (operation === 'contactConversations') {
+
+		let contactId = this.getNodeParameter('contactId', i, null) as number | null;
+		const contactIdentifier = this.getNodeParameter('contactIdentifierSearch', i, '') as string;
+
+		// If identifier is provided instead of ID, search for the contact first
+		if (!contactId && contactIdentifier) {
+			const query: IDataObject = {};
+			query["q"] = contactIdentifier;
+
+			let searchEndpoint = apiVersionPrefix + '/accounts/:account_id/contacts/search';
+			searchEndpoint = searchEndpoint.replace(':account_id', accountId);
+			const searchResult = await apiRequest.call(this, 'GET', searchEndpoint, {}, query, headers);
+
+			if (searchResult && searchResult.payload && searchResult.payload.length > 0) {
+				contactId = searchResult.payload[0].id;
+			} else {
+				throw new Error(`Contact not found with identifier: ${contactIdentifier}`);
+			}
+		}
+
+		if (!contactId) {
+			throw new Error('Either Contact ID or Contact Identifier must be provided');
+		}
+
+		let endpoint = apiVersionPrefix + '/accounts/:account_id/contacts/:contact_id/conversations';
+		endpoint = endpoint.replace(':account_id', accountId);
+		endpoint = endpoint.replace(':contact_id', contactId.toString());
+		responseData = await apiRequest.call(this, 'GET', endpoint, {}, {}, headers);
 	}
 	else if (operation === 'contactDetails') {
 

@@ -1,6 +1,6 @@
 export declare namespace CWModels {
 
-	export type Resource = 'account' | 'contact' | 'public';
+	export type Resource = 'account' | 'agent' | 'contact' | 'conversation' | 'inbox' | 'label' | 'message' | 'public' | 'team';
 
 	export type Credentials = {
 		baseUrl: string;
