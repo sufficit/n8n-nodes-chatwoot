@@ -21,6 +21,12 @@ export const contactDescription: INodeProperties[] = [
 				action: 'Contact details',
 			},
 			{
+				name: 'Get Contact Conversations',
+				value: 'contactConversations',
+				description: 'Get all conversations for a contact with status info',
+				action: 'Contact conversations',
+			},
+			{
 				name: 'Search Contacts',
 				value: 'contactSearch',
 				description: 'Search Contacts By name|identifier|email|phone_number',
@@ -63,11 +69,24 @@ export const contactDescription: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['contact'],
-				operation: ['contactUpdate','contactDetails'],
+				operation: ['contactUpdate','contactDetails','contactConversations'],
 			},
 		},
 		default: '',
 		description: 'Get account details',
+	},
+	{
+		displayName: 'Contact Identifier (Alternative)',
+		name: 'contactIdentifierSearch',
+		type: 'string',
+		displayOptions: {
+			show: {
+				resource: ['contact'],
+				operation: ['contactConversations'],
+			},
+		},
+		default: '',
+		description: 'Use identifier instead of Contact ID (e.g., 12365135531@s.whatsapp.net)',
 	},
 	{
 		displayName: 'Contact Identifier',
